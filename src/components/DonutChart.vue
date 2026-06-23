@@ -5,7 +5,7 @@
     <div class="donut-body">
       <!-- SVG Donut Chart -->
       <div class="chart-container">
-        <svg width="150" height="150" viewBox="0 0 120 120" class="donut-svg">
+        <svg width="200" height="200" viewBox="0 0 120 120" class="donut-svg">
           <!-- Background track (optional but nice) -->
           <circle
             cx="60"
@@ -175,8 +175,8 @@ export default {
 
 .chart-container {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,7 +206,7 @@ export default {
 }
 
 .center-val {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.1;
@@ -214,7 +214,7 @@ export default {
 }
 
 .center-lbl {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-secondary);
   font-weight: 600;
   text-transform: lowercase;

@@ -133,7 +133,7 @@
                 </span>
               </div>
               <div class="stat-card full-width">
-                <span class="stat-lbl">O'rtacha yopish vaqti</span>
+                <span class="stat-lbl">Bajarish tezligi</span>
                 <span class="stat-val time-val-text">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; display: inline-block; vertical-align: middle;">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -598,12 +598,12 @@ export default {
 }
 
 .profile-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
   color: #ffffff;
   font-weight: 800;
-  font-size: 24px;
+  font-size: 30px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -458,14 +458,14 @@ export default {
     },
     activeRequestersData() {
       const baseRequesters = [
-        { creator_id: 1, creator_name: 'Sardor Mirzayev', dep_name: 'Moliya bo\'limi', order_count: 64, top_service: 'IT', deptKey: 'finance' },
-        { creator_id: 2, creator_name: 'Kamola Yusupova', dep_name: 'HR bo\'limi', order_count: 58, top_service: 'Xo\'jalik', deptKey: 'hr' },
-        { creator_id: 3, creator_name: 'Ulug\'bek Nazarov', dep_name: 'IT bo\'limi', order_count: 52, top_service: 'IT', deptKey: 'it' },
-        { creator_id: 4, creator_name: 'Gulnora Karimova', dep_name: 'Moliya bo\'limi', order_count: 47, top_service: 'Chipta', deptKey: 'finance' },
-        { creator_id: 5, creator_name: 'Farhod Abdullayev', dep_name: 'Avtotransport', order_count: 41, top_service: 'Transport', deptKey: 'transport' },
-        { creator_id: 6, creator_name: 'Nodir Tolipov', dep_name: 'Xo\'jalik bo\'limi', order_count: 36, top_service: 'Xo\'jalik', deptKey: 'xo' },
-        { creator_id: 7, creator_name: 'Dilbar Aliyeva', dep_name: 'HR bo\'limi', order_count: 31, top_service: 'Xo\'jalik', deptKey: 'hr' },
-        { creator_id: 8, creator_name: 'Shavkat Tojiyev', dep_name: 'IT bo\'limi', order_count: 25, top_service: 'IT', deptKey: 'it' }
+        { creator_id: 1, creator_name: 'Sardor Mirzayev', dep_name: 'Moliya bo\'limi', order_count: 64, top_service: 'IT', deptKey: 'finance', position: 'Moliya bo\'limi boshlig\'i', avgRatingGiven: 4.8 },
+        { creator_id: 2, creator_name: 'Kamola Yusupova', dep_name: 'HR bo\'limi', order_count: 58, top_service: 'Xo\'jalik', deptKey: 'hr', position: 'Katta HR menejer', avgRatingGiven: 4.7 },
+        { creator_id: 3, creator_name: 'Ulug\'bek Nazarov', dep_name: 'IT bo\'limi', order_count: 52, top_service: 'IT', deptKey: 'it', position: 'IT tizim muhandisi', avgRatingGiven: 4.9 },
+        { creator_id: 4, creator_name: 'Gulnora Karimova', dep_name: 'Moliya bo\'limi', order_count: 47, top_service: 'Chipta', deptKey: 'finance', position: 'Bosh hisobchi (Moliya)', avgRatingGiven: 4.5 },
+        { creator_id: 5, creator_name: 'Farhod Abdullayev', dep_name: 'Avtotransport', order_count: 41, top_service: 'Transport', deptKey: 'transport', position: 'Logistika mas\'uli', avgRatingGiven: 4.6 },
+        { creator_id: 6, creator_name: 'Nodir Tolipov', dep_name: 'Xo\'jalik bo\'limi', order_count: 36, top_service: 'Xo\'jalik', deptKey: 'xo', position: 'Xo\'jalik yordamchisi', avgRatingGiven: 4.4 },
+        { creator_id: 7, creator_name: 'Dilbar Aliyeva', dep_name: 'HR bo\'limi', order_count: 31, top_service: 'Xo\'jalik', deptKey: 'hr', position: 'HR menejeri', avgRatingGiven: 4.8 },
+        { creator_id: 8, creator_name: 'Shavkat Tojiyev', dep_name: 'IT bo\'limi', order_count: 25, top_service: 'IT', deptKey: 'it', position: 'Dasturchi (IT)', avgRatingGiven: 4.7 }
       ];
 
       let filtered = baseRequesters;

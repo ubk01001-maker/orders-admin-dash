@@ -8,7 +8,7 @@
     </div>
 
     <div class="requesters-list">
-      <div v-for="(req, index) in data.slice(0, 6)" :key="req.creator_id" class="requester-row">
+      <div v-for="(req, index) in data.slice(0, 6)" :key="req.creator_id" class="requester-row" @click="openDetail(req)">
         <!-- Rank Number -->
         <span class="rank-number">{{ index + 1 }}</span>
 
@@ -74,7 +74,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(req, i) in filteredRequesters" :key="req.creator_id">
+                  <tr v-for="(req, i) in filteredRequesters" :key="req.creator_id" @click="openDetail(req)" class="table-row-clickable">
                     <td>{{ i + 1 }}</td>
                     <td>
                       <div class="table-user">
@@ -100,6 +100,49 @@
         </transition>
       </div>
     </transition>
+
+    <!-- Requester Detail Modal -->
+    <transition name="fade">
+      <div v-if="showDetailModal && selectedRequester" class="modal-overlay" @click.self="closeDetail">
+        <transition name="zoom">
+          <div class="detail-modal-content">
+            <button class="detail-close-btn" @click="closeDetail">&times;</button>
+            
+            <div class="requester-profile">
+              <div class="profile-avatar" :style="{ backgroundColor: getAvatarColor(selectedRequester.creator_id) }">
+                {{ getInitials(selectedRequester.creator_name) }}
+              </div>
+              <h3 class="profile-name">{{ selectedRequester.creator_name }}</h3>
+              <p class="profile-position">{{ selectedRequester.position || 'Xodim' }}</p>
+              <p class="profile-dept">{{ selectedRequester.dep_name }}</p>
+            </div>
+
+            <div class="profile-stats-grid">
+              <div class="stat-card">
+                <span class="stat-lbl">Jami buyurtmalar</span>
+                <span class="stat-val">{{ formatNumber(selectedRequester.order_count) }} ta</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-lbl">O'rtacha bergan bahosi</span>
+                <span class="stat-val rating-val-text">
+                  <span class="star-gold">★</span> {{ (selectedRequester.avgRatingGiven || 4.7).toFixed(1) }}
+                </span>
+              </div>
+              <div class="stat-card full-width">
+                <span class="stat-lbl">Ko'p foydalanadigan xizmat</span>
+                <span class="stat-val service-val-text">
+                  {{ selectedRequester.top_service || 'IT xizmatlari' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button class="action-btn-primary" @click="closeDetail">Yopish</button>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -115,6 +158,8 @@ export default {
   data() {
     return {
       showModal: false,
+      showDetailModal: false,
+      selectedRequester: null,
       searchQuery: '',
       avatarColors: ['#2E6DB4', '#27AE60', '#E4A216', '#7B61FF', '#E85D75', '#50C9C3']
     }
@@ -154,6 +199,14 @@ export default {
         return num.toLocaleString('ru-RU');
       }
       return num;
+    },
+    openDetail(requester) {
+      this.selectedRequester = requester;
+      this.showDetailModal = true;
+    },
+    closeDetail() {
+      this.showDetailModal = false;
+      this.selectedRequester = null;
     }
   }
 }
@@ -488,5 +541,171 @@ export default {
 .zoom-enter, .zoom-leave-to {
   transform: scale(0.95);
   opacity: 0;
+}
+/* Clickable row and table row */
+.requester-row {
+  cursor: pointer;
+}
+
+.table-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.table-row-clickable:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Detail Modal specific styling */
+.detail-modal-content {
+  background: var(--card-bg);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 360px;
+  box-shadow: 0 25px 50px -12px var(--shadow-color), 0 0 0 1px var(--border-color);
+  padding: 30px 20px 20px 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.detail-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.detail-close-btn:hover {
+  color: var(--text-primary);
+}
+
+.requester-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.profile-position {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2E6DB4;
+  margin-bottom: 2px;
+}
+
+.profile-dept {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.profile-stats-grid .stat-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-stats-grid .stat-card.full-width {
+  grid-column: span 2;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+
+.stat-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rating-val-text {
+  color: #f59e0b;
+}
+
+.star-gold {
+  color: #f59e0b;
+  margin-right: 2px;
+}
+
+.service-val-text {
+  color: #2E6DB4;
+}
+
+.modal-actions {
+  width: 100%;
+}
+
+.action-btn-primary {
+  width: 100%;
+  padding: 10px;
+  background-color: #2E6DB4;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.action-btn-primary:hover {
+  background-color: #23558c;
+}
+
+.action-btn-primary:active {
+  transform: scale(0.98);
 }
 </style>

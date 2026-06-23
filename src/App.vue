@@ -92,6 +92,8 @@
     <!-- Charts Section (Row 1) -->
     <section class="dashboard-grid grid-row-1">
       <BarChart
+        :active-mode="barChartMode"
+        @mode-change="onBarChartModeChange"
         :data-kun="barChartData.kun"
         :data-hafta="barChartData.hafta"
         :data-oy="barChartData.oy"
@@ -179,9 +181,27 @@ export default {
       this.theme = newTheme;
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
+    },
+    onBarChartModeChange(mode) {
+      const mapping = {
+        kun: 'today',
+        hafta: 'week',
+        oy: 'month',
+        yil: 'year'
+      };
+      this.selectedTimeframe = mapping[mode] || 'today';
     }
   },
   computed: {
+    barChartMode() {
+      const mapping = {
+        today: 'kun',
+        week: 'hafta',
+        month: 'oy',
+        year: 'yil'
+      };
+      return mapping[this.selectedTimeframe] || 'kun';
+    },
     // Dynamic factors based on filter selections
     timeframeFactor() {
       if (this.selectedTimeframe === 'week') return 5.4;
@@ -362,14 +382,14 @@ export default {
     // Performers Rating list
     performersData() {
       const basePerformers = [
-        { id: 1, name: 'Aziz Karimov', department: 'IT bo\'limi', initials: 'AK', ordersCount: 87, rating: 4.9, avatarColor: '#3b82f6' },
-        { id: 2, name: 'Dilnoza Rahimova', department: 'Moliya bo\'limi', initials: 'DR', ordersCount: 74, rating: 4.8, avatarColor: '#10b981' },
-        { id: 3, name: 'Bobur Toshmatov', department: 'Xo\'jalik bo\'limi', initials: 'BT', ordersCount: 68, rating: 4.7, avatarColor: '#f59e0b' },
-        { id: 4, name: 'Madina Usmonova', department: 'HR bo\'limi', initials: 'MU', ordersCount: 61, rating: 4.5, avatarColor: '#8b5cf6' },
-        { id: 5, name: 'Jasur Aliyev', department: 'IT bo\'limi', initials: 'JA', ordersCount: 53, rating: 4.3, avatarColor: '#ef4444' },
-        { id: 6, name: 'Nodira Saidova', department: 'Avtotransport', initials: 'NS', ordersCount: 47, rating: 4.1, avatarColor: '#eab308' },
-        { id: 7, name: 'Farhod Alimov', department: 'Moliya bo\'limi', initials: 'FA', ordersCount: 39, rating: 4.0, avatarColor: '#14b8a6' },
-        { id: 8, name: 'Elena Petrova', department: 'HR bo\'limi', initials: 'EP', ordersCount: 32, rating: 3.9, avatarColor: '#ec4899' }
+        { id: 1, name: 'Aziz Karimov', department: 'IT bo\'limi', initials: 'AK', ordersCount: 87, rating: 4.9, avatarColor: '#3b82f6', position: 'Bosh mutaxassis (IT)', avgCloseTime: '1.5 soat' },
+        { id: 2, name: 'Dilnoza Rahimova', department: 'Moliya bo\'limi', initials: 'DR', ordersCount: 74, rating: 4.8, avatarColor: '#10b981', position: 'Katta hisobchi (Moliya)', avgCloseTime: '2.1 soat' },
+        { id: 3, name: 'Bobur Toshmatov', department: 'Xo\'jalik bo\'limi', initials: 'BT', ordersCount: 68, rating: 4.7, avatarColor: '#f59e0b', position: 'Texnik yordamchi (Xo\'jalik)', avgCloseTime: '2.8 soat' },
+        { id: 4, name: 'Madina Usmonova', department: 'HR bo\'limi', initials: 'MU', ordersCount: 61, rating: 4.5, avatarColor: '#8b5cf6', position: 'HR menejer', avgCloseTime: '1.9 soat' },
+        { id: 5, name: 'Jasur Aliyev', department: 'IT bo\'limi', initials: 'JA', ordersCount: 53, rating: 4.3, avatarColor: '#ef4444', position: 'Tizim administratori (IT)', avgCloseTime: '2.4 soat' },
+        { id: 6, name: 'Nodira Saidova', department: 'Avtotransport', initials: 'NS', ordersCount: 47, rating: 4.1, avatarColor: '#eab308', position: 'Logistika mas\'uli (Avtotransport)', avgCloseTime: '3.1 soat' },
+        { id: 7, name: 'Farhod Alimov', department: 'Moliya bo\'limi', initials: 'FA', ordersCount: 39, rating: 4.0, avatarColor: '#14b8a6', position: 'Gʻaznachi (Moliya)', avgCloseTime: '2.6 soat' },
+        { id: 8, name: 'Elena Petrova', department: 'HR bo\'limi', initials: 'EP', ordersCount: 32, rating: 3.9, avatarColor: '#ec4899', position: 'Kadrlar inspektori (HR)', avgCloseTime: '2.0 soat' }
       ];
 
       let filtered = basePerformers;

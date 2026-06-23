@@ -62,6 +62,10 @@
 export default {
   name: 'BarChart',
   props: {
+    activeMode: {
+      type: String,
+      default: 'kun'
+    },
     dataKun: {
       type: Array,
       default: () => [
@@ -109,7 +113,6 @@ export default {
   },
   data() {
     return {
-      activeMode: 'kun', // 'kun', 'hafta', 'oy', 'yil'
       modes: [
         { label: 'Yil', value: 'yil' },
         { label: 'Oy', value: 'oy' },
@@ -144,7 +147,6 @@ export default {
   },
   methods: {
     changeMode(mode) {
-      this.activeMode = mode;
       this.$emit('mode-change', mode);
     },
     getBarHeightPercent(val) {

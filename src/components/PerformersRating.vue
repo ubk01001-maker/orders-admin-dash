@@ -8,7 +8,7 @@
     </div>
 
     <div class="performers-list">
-      <div v-for="(performer, index) in data.slice(0, 6)" :key="performer.id" class="performer-row">
+      <div v-for="(performer, index) in data.slice(0, 6)" :key="performer.id" class="performer-row" @click="openDetail(performer)">
         <!-- Rank Number -->
         <span class="rank-number">{{ index + 1 }}</span>
 
@@ -75,7 +75,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(perf, i) in filteredPerformers" :key="perf.id">
+                  <tr v-for="(perf, i) in filteredPerformers" :key="perf.id" @click="openDetail(perf)" class="table-row-clickable">
                     <td>{{ i + 1 }}</td>
                     <td>
                       <div class="table-user">
@@ -104,6 +104,53 @@
         </transition>
       </div>
     </transition>
+
+    <!-- Performer Detail Modal -->
+    <transition name="fade">
+      <div v-if="showDetailModal && selectedPerformer" class="modal-overlay" @click.self="closeDetail">
+        <transition name="zoom">
+          <div class="detail-modal-content">
+            <button class="detail-close-btn" @click="closeDetail">&times;</button>
+            
+            <div class="performer-profile">
+              <div class="profile-avatar" :style="{ backgroundColor: selectedPerformer.avatarColor }">
+                {{ selectedPerformer.initials }}
+              </div>
+              <h3 class="profile-name">{{ selectedPerformer.name }}</h3>
+              <p class="profile-position">{{ selectedPerformer.position || 'Mutaxassis' }}</p>
+              <p class="profile-dept">{{ selectedPerformer.department }}</p>
+            </div>
+
+            <div class="profile-stats-grid">
+              <div class="stat-card">
+                <span class="stat-lbl">Jami buyurtmalar</span>
+                <span class="stat-val">{{ formatNumber(selectedPerformer.ordersCount) }} ta</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-lbl">O'rtacha baho</span>
+                <span class="stat-val rating-val-text">
+                  <span class="star-gold">★</span> {{ selectedPerformer.rating.toFixed(1) }}
+                </span>
+              </div>
+              <div class="stat-card full-width">
+                <span class="stat-lbl">O'rtacha yopish vaqti</span>
+                <span class="stat-val time-val-text">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; display: inline-block; vertical-align: middle;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  {{ selectedPerformer.avgCloseTime || '2.0 soat' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button class="action-btn-primary" @click="closeDetail">Yopish</button>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -114,20 +161,22 @@ export default {
     data: {
       type: Array,
       default: () => [
-        { id: 1, name: 'Aziz Karimov', department: 'IT bo\'limi', initials: 'AK', ordersCount: 87, rating: 4.9, avatarColor: '#3b82f6' },
-        { id: 2, name: 'Dilnoza Rahimova', department: 'Moliya bo\'limi', initials: 'DR', ordersCount: 74, rating: 4.8, avatarColor: '#10b981' },
-        { id: 3, name: 'Bobur Toshmatov', department: 'Xo\'jalik bo\'limi', initials: 'BT', ordersCount: 68, rating: 4.7, avatarColor: '#f59e0b' },
-        { id: 4, name: 'Madina Usmonova', department: 'HR bo\'limi', initials: 'MU', ordersCount: 61, rating: 4.5, avatarColor: '#8b5cf6' },
-        { id: 5, name: 'Jasur Aliyev', department: 'IT bo\'limi', initials: 'JA', ordersCount: 53, rating: 4.3, avatarColor: '#ef4444' },
-        { id: 6, name: 'Nodira Saidova', department: 'Avtotransport', initials: 'NS', ordersCount: 47, rating: 4.1, avatarColor: '#eab308' },
-        { id: 7, name: 'Farhod Alimov', department: 'Moliya bo\'limi', initials: 'FA', ordersCount: 39, rating: 4.0, avatarColor: '#14b8a6' },
-        { id: 8, name: 'Elena Petrova', department: 'HR bo\'limi', initials: 'EP', ordersCount: 32, rating: 3.9, avatarColor: '#ec4899' }
+        { id: 1, name: 'Aziz Karimov', department: 'IT bo\'limi', initials: 'AK', ordersCount: 87, rating: 4.9, avatarColor: '#3b82f6', position: 'Bosh mutaxassis (IT)', avgCloseTime: '1.5 soat' },
+        { id: 2, name: 'Dilnoza Rahimova', department: 'Moliya bo\'limi', initials: 'DR', ordersCount: 74, rating: 4.8, avatarColor: '#10b981', position: 'Katta hisobchi (Moliya)', avgCloseTime: '2.1 soat' },
+        { id: 3, name: 'Bobur Toshmatov', department: 'Xo\'jalik bo\'limi', initials: 'BT', ordersCount: 68, rating: 4.7, avatarColor: '#f59e0b', position: 'Texnik yordamchi (Xo\'jalik)', avgCloseTime: '2.8 soat' },
+        { id: 4, name: 'Madina Usmonova', department: 'HR bo\'limi', initials: 'MU', ordersCount: 61, rating: 4.5, avatarColor: '#8b5cf6', position: 'HR menejer', avgCloseTime: '1.9 soat' },
+        { id: 5, name: 'Jasur Aliyev', department: 'IT bo\'limi', initials: 'JA', ordersCount: 53, rating: 4.3, avatarColor: '#ef4444', position: 'Tizim administratori (IT)', avgCloseTime: '2.4 soat' },
+        { id: 6, name: 'Nodira Saidova', department: 'Avtotransport', initials: 'NS', ordersCount: 47, rating: 4.1, avatarColor: '#eab308', position: 'Logistika mas\'uli (Avtotransport)', avgCloseTime: '3.1 soat' },
+        { id: 7, name: 'Farhod Alimov', department: 'Moliya bo\'limi', initials: 'FA', ordersCount: 39, rating: 4.0, avatarColor: '#14b8a6', position: 'Gʻaznachi (Moliya)', avgCloseTime: '2.6 soat' },
+        { id: 8, name: 'Elena Petrova', department: 'HR bo\'limi', initials: 'EP', ordersCount: 32, rating: 3.9, avatarColor: '#ec4899', position: 'Kadrlar inspektori (HR)', avgCloseTime: '2.0 soat' }
       ]
     }
   },
   data() {
     return {
       showModal: false,
+      showDetailModal: false,
+      selectedPerformer: null,
       searchQuery: ''
     }
   },
@@ -156,6 +205,14 @@ export default {
     },
     formatNumber(num) {
       return num.toLocaleString('ru-RU');
+    },
+    openDetail(performer) {
+      this.selectedPerformer = performer;
+      this.showDetailModal = true;
+    },
+    closeDetail() {
+      this.showDetailModal = false;
+      this.selectedPerformer = null;
     }
   }
 }
@@ -483,5 +540,175 @@ export default {
 .zoom-enter, .zoom-leave-to {
   transform: scale(0.95);
   opacity: 0;
+}
+/* Clickable row and table row */
+.performer-row {
+  cursor: pointer;
+}
+
+.table-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.table-row-clickable:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Detail Modal specific styling */
+.detail-modal-content {
+  background: var(--card-bg);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 360px;
+  box-shadow: 0 25px 50px -12px var(--shadow-color), 0 0 0 1px var(--border-color);
+  padding: 30px 20px 20px 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.detail-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.detail-close-btn:hover {
+  color: var(--text-primary);
+}
+
+.performer-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.profile-position {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 2px;
+}
+
+[data-theme="dark"] .profile-position {
+  color: #60a5fa;
+}
+
+.profile-dept {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.profile-stats-grid .stat-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-stats-grid .stat-card.full-width {
+  grid-column: span 2;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+
+.stat-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rating-val-text {
+  color: #f59e0b;
+}
+
+.star-gold {
+  color: #f59e0b;
+  margin-right: 2px;
+}
+
+.time-val-text {
+  color: #10b981;
+}
+
+.modal-actions {
+  width: 100%;
+}
+
+.action-btn-primary {
+  width: 100%;
+  padding: 10px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.action-btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.action-btn-primary:active {
+  transform: scale(0.98);
 }
 </style>

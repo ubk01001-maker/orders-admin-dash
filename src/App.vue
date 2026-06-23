@@ -91,39 +91,25 @@
 
     <!-- Charts Section (Row 1) -->
     <section class="dashboard-grid grid-row-1">
-      <div class="grid-col-large">
-        <BarChart
-          :data-kun="barChartData.kun"
-          :data-hafta="barChartData.hafta"
-          :data-oy="barChartData.oy"
-        />
-      </div>
-      <div class="grid-col-small">
-        <DonutChart :data="donutChartData" />
-      </div>
-      <div class="grid-col-small">
-        <ServiceStats :data="serviceStatsData" />
-      </div>
+      <BarChart
+        :data-kun="barChartData.kun"
+        :data-hafta="barChartData.hafta"
+        :data-oy="barChartData.oy"
+      />
+      <DonutChart :data="donutChartData" />
     </section>
 
     <!-- Details Section (Row 2) -->
     <section class="dashboard-grid grid-row-2">
-      <div class="grid-col-large">
-        <PerformersRating :data="performersData" />
-      </div>
-      <div class="grid-col-small">
-        <DepartmentStats :data="departmentsData" />
-      </div>
-      <div class="grid-col-small">
-        <DelayedOrders :data="delayedOrdersData" />
-      </div>
+      <PerformersRating :data="performersData" />
+      <ActiveRequesters :data="activeRequestersData" />
     </section>
 
-    <!-- Requesters Section (Row 3) -->
+    <!-- Distribution & Alerts Section (Row 3) -->
     <section class="dashboard-grid grid-row-3">
-      <div class="grid-col-large">
-        <ActiveRequesters :data="activeRequestersData" />
-      </div>
+      <ServiceStats :data="serviceStatsData" />
+      <DepartmentStats :data="departmentsData" />
+      <DelayedOrders :data="delayedOrdersData" />
     </section>
   </div>
 </template>
@@ -512,6 +498,7 @@ export default {
   --border-color: #e2e8f0;
   --shadow-color: rgba(0, 0, 0, 0.01);
   --shadow-hover: rgba(0, 0, 0, 0.04);
+  --hover-bg: #f1f5f9;
 }
 
 [data-theme="dark"] {
@@ -522,6 +509,7 @@ export default {
   --border-color: #334155;
   --shadow-color: rgba(0, 0, 0, 0.15);
   --shadow-hover: rgba(0, 0, 0, 0.25);
+  --hover-bg: #334155;
 }
 
 * {
@@ -541,7 +529,7 @@ body {
 }
 
 #app {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -605,7 +593,7 @@ body {
 .kpi-section {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
 }
 
 /* Grid Layouts */
@@ -614,36 +602,31 @@ body {
   gap: 20px;
 }
 
-/* Row 1 layout: 2fr 1fr 1fr */
+/* Row 1 layout: Wide chart + status breakdown */
 .grid-row-1 {
-  grid-template-columns: 2.2fr 1.2fr 1.2fr;
+  grid-template-columns: 3fr 1.2fr;
 }
 
-/* Row 2 layout: 2fr 1.2fr 1.2fr */
+/* Row 2 layout: Performers rating + Active requesters rating side-by-side */
 .grid-row-2 {
-  grid-template-columns: 2.2fr 1.2fr 1.2fr;
+  grid-template-columns: 1fr 1fr;
 }
 
-/* Row 3 layout: 2.2fr 2.4fr */
+/* Row 3 layout: Distribution stats and alerts */
 .grid-row-3 {
-  grid-template-columns: 2.2fr 2.4fr;
-}
-
-.grid-col-large {
-  min-width: 0; /* Prevents flexbox/grid blowout */
-}
-
-.grid-col-small {
-  min-width: 0;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 /* Responsive queries */
 @media (max-width: 1200px) {
-  .grid-row-1, .grid-row-2, .grid-row-3 {
-    grid-template-columns: 1.5fr 1fr;
+  .grid-row-1 {
+    grid-template-columns: 1fr;
   }
-  .grid-col-small:last-child {
-    grid-column: span 2;
+  .grid-row-2 {
+    grid-template-columns: 1fr;
+  }
+  .grid-row-3 {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -662,9 +645,6 @@ body {
   }
   .grid-row-1, .grid-row-2, .grid-row-3 {
     grid-template-columns: 1fr;
-  }
-  .grid-col-small:last-child {
-    grid-column: span 1;
   }
 }
 </style>

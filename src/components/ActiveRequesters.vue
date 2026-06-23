@@ -8,7 +8,7 @@
     </div>
 
     <div class="requesters-list">
-      <div v-for="(req, index) in data.slice(0, 8)" :key="req.creator_id" class="requester-row">
+      <div v-for="(req, index) in data.slice(0, 6)" :key="req.creator_id" class="requester-row">
         <!-- Rank Number -->
         <span class="rank-number">{{ index + 1 }}</span>
 
@@ -162,13 +162,13 @@ export default {
 <style scoped>
 .requesters-card {
   background: var(--card-bg);
-  border-radius: 14px;
-  padding: 22px;
-  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color), 0 0 0 1px var(--border-color);
   height: 100%;
   display: flex;
   flex-direction: column;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card-header {
@@ -179,8 +179,8 @@ export default {
 }
 
 .card-title {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0;
 }
@@ -227,7 +227,7 @@ export default {
 }
 
 .requester-row:hover {
-  background-color: var(--bg-color);
+  background-color: var(--hover-bg);
   border-radius: 8px;
 }
 

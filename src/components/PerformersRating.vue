@@ -222,7 +222,13 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 6px 0;
+  padding: 6px 8px;
+  transition: background-color 0.2s ease, border-radius 0.2s ease;
+}
+
+.performer-row:hover {
+  background-color: var(--hover-bg);
+  border-radius: 8px;
 }
 
 .rank-number {

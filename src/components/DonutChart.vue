@@ -150,7 +150,7 @@ export default {
 .donut-card {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color), 0 0 0 1px var(--border-color);
   height: 100%;
   display: flex;
@@ -162,15 +162,17 @@ export default {
   font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
 }
 
 .donut-body {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-around;
   gap: 20px;
   flex: 1;
+  width: 100%;
 }
 
 .chart-container {
@@ -180,6 +182,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .donut-svg {
@@ -222,18 +225,18 @@ export default {
 }
 
 .legend-container {
-  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
   transition: background-color 0.2s ease;
   cursor: pointer;
 }
@@ -276,5 +279,12 @@ export default {
 
 .legend-pct {
   color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .donut-body {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 </style>

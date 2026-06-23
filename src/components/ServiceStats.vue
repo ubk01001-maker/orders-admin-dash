@@ -53,7 +53,7 @@ export default {
 .stats-card {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color), 0 0 0 1px var(--border-color);
   height: 100%;
   display: flex;
@@ -65,13 +65,13 @@ export default {
   font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0 0 24px 0;
+  margin: 0 0 16px 0;
 }
 
 .stats-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   flex: 1;
   justify-content: space-around;
 }

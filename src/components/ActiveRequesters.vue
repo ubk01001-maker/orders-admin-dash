@@ -163,7 +163,7 @@ export default {
 .requesters-card {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color), 0 0 0 1px var(--border-color);
   height: 100%;
   display: flex;
@@ -175,7 +175,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .card-title {
@@ -215,7 +215,7 @@ export default {
 .requesters-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .requester-row {

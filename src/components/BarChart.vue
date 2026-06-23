@@ -158,7 +158,7 @@ export default {
 .chart-card {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color), 0 0 0 1px var(--border-color);
   display: flex;
   flex-direction: column;
@@ -170,7 +170,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .chart-title {
@@ -210,7 +210,8 @@ export default {
 .chart-content {
   display: flex;
   position: relative;
-  height: 200px;
+  flex: 1;
+  min-height: 220px;
   gap: 16px;
   margin-top: 10px;
 }

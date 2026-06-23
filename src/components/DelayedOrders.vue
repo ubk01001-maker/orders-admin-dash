@@ -111,7 +111,7 @@ export default {
 .delayed-card {
   background: var(--card-bg);
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color), 0 0 0 1px var(--border-color);
   height: 100%;
   display: flex;
@@ -123,13 +123,13 @@ export default {
   font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
 }
 
 .orders-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   flex: 1;
 }
 
@@ -137,7 +137,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
+  padding: 8px 12px;
   background-color: rgba(239, 68, 68, 0.06);
   border-radius: 8px;
   border-left: 3px solid #ef4444;
@@ -173,7 +173,7 @@ export default {
 }
 
 .card-footer {
-  margin-top: 16px;
+  margin-top: 12px;
   display: flex;
   justify-content: flex-end;
 }
